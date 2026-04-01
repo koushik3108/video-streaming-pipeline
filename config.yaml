@@ -1,0 +1,107 @@
+# ============================================================
+# Video Streaming Pipeline - Configuration
+# ============================================================
+
+server:
+  host: "0.0.0.0"
+  port: 8080
+  debug: false
+  cors_origins:
+    - "http://localhost:3000"
+    - "http://localhost:8080"
+
+# --- FFmpeg Settings ---
+ffmpeg:
+  binary: "ffmpeg"         # Path to ffmpeg binary (use full path if not in PATH)
+  ffprobe_binary: "ffprobe"
+  threads: 0               # 0 = auto-detect CPU cores
+  timeout_seconds: 30      # Timeout for probe/info calls
+
+# --- Live Streaming ---
+live:
+  rtmp_port: 1935
+  ingest_url: "rtmp://localhost:1935/live"
+  segment_duration: 2       # HLS segment duration in seconds
+  segment_list_size: 10     # Number of segments in HLS playlist
+  output_dir: "streams/live"
+  renditions:
+    - name: "1080p"
+      width: 1920
+      height: 1080
+      video_bitrate: "5000k"
+      audio_bitrate: "192k"
+      fps: 30
+    - name: "720p"
+      width: 1280
+      height: 720
+      video_bitrate: "2500k"
+      audio_bitrate: "128k"
+      fps: 30
+    - name: "480p"
+      width: 854
+      height: 480
+      video_bitrate: "1000k"
+      audio_bitrate: "96k"
+      fps: 30
+    - name: "360p"
+      width: 640
+      height: 360
+      video_bitrate: "500k"
+      audio_bitrate: "64k"
+      fps: 25
+
+# --- VOD (Video on Demand) ---
+vod:
+  upload_dir: "uploads"
+  output_dir: "streams/vod"
+  max_upload_size_mb: 2048   # 2 GB max upload size
+  allowed_extensions:
+    - ".mp4"
+    - ".mov"
+    - ".avi"
+    - ".mkv"
+    - ".webm"
+    - ".flv"
+    - ".ts"
+  segment_duration: 6        # HLS segment duration for VOD
+  renditions:
+    - name: "1080p"
+      width: 1920
+      height: 1080
+      video_bitrate: "4500k"
+      audio_bitrate: "192k"
+    - name: "720p"
+      width: 1280
+      height: 720
+      video_bitrate: "2000k"
+      audio_bitrate: "128k"
+    - name: "480p"
+      width: 854
+      height: 480
+      video_bitrate: "800k"
+      audio_bitrate: "96k"
+    - name: "360p"
+      width: 640
+      height: 360
+      video_bitrate: "400k"
+      audio_bitrate: "64k"
+
+# --- Storage ---
+storage:
+  backend: "local"           # Options: "local", "s3"
+  local:
+    base_dir: "."            # Base directory for stream outputs
+  s3:
+    bucket_name: ""
+    region: "us-east-1"
+    prefix: "streams/"
+    # Credentials via environment variables:
+    # AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY
+
+# --- Logging ---
+logging:
+  level: "INFO"              # DEBUG, INFO, WARNING, ERROR
+  dir: "logs"
+  rotation: "10 MB"
+  retention: "7 days"
+  format: "{time:YYYY-MM-DD HH:mm:ss} | {level} | {module} | {message}"

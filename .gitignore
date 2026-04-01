@@ -1,0 +1,52 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+*.egg-info/
+dist/
+build/
+.eggs/
+
+# Virtual environment
+venv/
+env/
+.venv/
+ENV/
+
+# Logs
+logs/
+*.log
+
+# Generated stream output (HLS segments — don't commit media files)
+streams/
+uploads/
+
+# Environment variables
+.env
+.env.local
+.env.*
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Pytest
+.pytest_cache/
+pytest-cache-files-*/
+
+# Node (for docx generation script)
+node_modules/
+npm-local/
+
+# Misc
+*.tmp
+*.bak
